@@ -105,10 +105,16 @@ export function MoodboardGallery() {
   return (
     <div className="space-y-4">
       {/* Header with Add Button */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-          Moodboard
-        </h2>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl md:text-4xl">🖼️</span>
+          <div className="flex flex-col">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+              Moodboard
+            </h2>
+            <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => setShowAddForm(!showAddForm)}

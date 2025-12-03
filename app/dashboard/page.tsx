@@ -338,10 +338,16 @@ export default function DashboardPage() {
 
         {/* Schedule / Vertical Timeline */}
         <section id="schedule" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-              {t("schedule_title")}
-            </h2>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl md:text-4xl">📅</span>
+              <div className="flex flex-col">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+                  {t("schedule_title")}
+                </h2>
+                <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+              </div>
+            </div>
             <p className="text-xs text-gray-400">
               {items.length} {t("schedule_items_label")}
             </p>
@@ -500,25 +506,43 @@ export default function DashboardPage() {
 
         {/* Tasks */}
         <section id="tasks" className="space-y-3">
-          <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-            {t("tasks_title")}
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl md:text-4xl">🚀</span>
+            <div className="flex flex-col">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+                {t("tasks_title")}
+              </h2>
+              <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+            </div>
+          </div>
           <TaskList />
         </section>
 
         {/* Info */}
         <section id="info" className="space-y-3">
-          <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-            {t("info_title")}
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl md:text-4xl">ℹ️</span>
+            <div className="flex flex-col">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+                {t("info_title")}
+              </h2>
+              <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+            </div>
+          </div>
           <InfoList />
         </section>
 
         {/* Tools */}
         <section id="tools" className="space-y-3">
-          <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-            {t("tools_title")}
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl md:text-4xl">🛠️</span>
+            <div className="flex flex-col">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+                {t("tools_title")}
+              </h2>
+              <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+            </div>
+          </div>
           <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {/* Weather Widget - Blue/Cyan Gradient */}
             <div className="bg-gradient-to-br from-blue-400 to-cyan-300 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
@@ -564,17 +588,29 @@ export default function DashboardPage() {
 
         {/* AI Smart Explorer */}
         <section id="explorer" className="space-y-3">
-          <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-            Khám phá Hàn Quốc
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl md:text-4xl">🔍</span>
+            <div className="flex flex-col">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+                Khám phá Hàn Quốc
+              </h2>
+              <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+            </div>
+          </div>
           <SmartExplorer />
         </section>
 
         {/* Live Reviews */}
         <section id="reviews" className="space-y-3">
-          <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-            {t("reviews_title")}
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl md:text-4xl">⭐</span>
+            <div className="flex flex-col">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400 tracking-tight">
+                {t("reviews_title")}
+              </h2>
+              <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
+            </div>
+          </div>
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
             <PlaceReviewCard
               placeId="ChIJP5lg3YuKYTURjTAS46G5TWc"
