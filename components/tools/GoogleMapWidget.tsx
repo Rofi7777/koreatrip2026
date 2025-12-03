@@ -26,9 +26,9 @@ const LOCATIONS: Location[] = [
 
 export function GoogleMapWidget() {
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
-      <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 mb-3">
-        <i className="fas fa-map-marked-alt text-[#6D28D9]" />
+    <div className="p-4 md:p-6">
+      <div className="flex items-center gap-2 text-sm font-semibold text-white mb-3">
+        <i className="fas fa-map-marked-alt text-white" />
         Google Maps Navigation
       </div>
       
@@ -39,15 +39,15 @@ export function GoogleMapWidget() {
             href={location.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between p-2.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 hover:border-[#6D28D9] transition-colors group"
+            className="flex items-center justify-between p-2.5 rounded-lg border border-white/30 bg-white/20 backdrop-blur-md hover:bg-white/30 hover:border-white/50 transition-colors group"
           >
             <div className="flex items-center gap-2 flex-1 min-w-0">
-              <i className="fas fa-map-marker-alt text-[#6D28D9] text-xs flex-shrink-0" />
-              <span className="text-xs font-medium text-gray-900 truncate">
+              <i className="fas fa-map-marker-alt text-white text-xs flex-shrink-0" />
+              <span className="text-xs font-medium text-white truncate">
                 {location.name}
               </span>
             </div>
-            <span className="text-xs text-[#6D28D9] font-medium ml-2 flex-shrink-0 group-hover:translate-x-0.5 transition-transform">
+            <span className="text-xs text-white font-medium ml-2 flex-shrink-0 group-hover:translate-x-0.5 transition-transform">
               Open in App ↗
             </span>
           </a>

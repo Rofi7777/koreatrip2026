@@ -1,6 +1,5 @@
  "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { ItineraryItem } from "@/types";
 import { AIChatWidget } from "@/components/AIChatWidget";
@@ -12,9 +11,9 @@ import { PlaceReviewCard } from "@/components/tools/PlaceReviewCard";
 import { GoogleMapWidget } from "@/components/tools/GoogleMapWidget";
 import { TranslatorWidget } from "@/components/tools/TranslatorWidget";
 import { LuckyWheel } from "@/components/tools/LuckyWheel";
+import { SmartExplorer } from "@/components/tools/SmartExplorer";
 import { TaskList } from "@/components/TaskList";
 import { InfoList } from "@/components/InfoList";
-import { ForceViButton } from "@/components/admin/ForceViButton";
 import { MoodboardGallery } from "@/components/MoodboardGallery";
 import { HeroWeather } from "@/components/HeroWeather";
 import { HeroTranslateBtn } from "@/components/HeroTranslateBtn";
@@ -29,9 +28,7 @@ function formatTime(value?: string | null) {
 }
 
 export default function DashboardPage() {
-  const router = useRouter();
   const { t, language } = useLanguage();
-  const [loggingOut, setLoggingOut] = useState(false);
   const [items, setItems] = useState<ItineraryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,18 +41,6 @@ export default function DashboardPage() {
   const [editingItem, setEditingItem] = useState<ItineraryItem | null>(null);
   const [savingEdit, setSavingEdit] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-
-  const handleLogout = async () => {
-    setLoggingOut(true);
-    try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-      });
-      router.push("/login");
-    } finally {
-      setLoggingOut(false);
-    }
-  };
 
   useEffect(() => {
     const fetchItinerary = async () => {
@@ -281,7 +266,7 @@ export default function DashboardPage() {
   return (
     <>
       <div className="w-full max-w-[95%] mx-auto px-4 sm:px-6 md:px-8">
-        <Navbar onLogout={handleLogout} loggingOut={loggingOut} />
+        <Navbar />
 
         <main className="space-y-10 pb-16">
         {/* Hero */}
@@ -534,22 +519,55 @@ export default function DashboardPage() {
           <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
             {t("tools_title")}
           </h2>
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <WeatherWidget />
-            <GoogleMapWidget />
-            <TranslatorWidget />
-            <LuckyWheel />
-            <ForceViButton />
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
-              <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-                <i className="fas fa-robot text-[#6D28D9]" />
-                {t("tools_ai_title")}
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {/* Weather Widget - Blue/Cyan Gradient */}
+            <div className="bg-gradient-to-br from-blue-400 to-cyan-300 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
+              <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
+                <i className="fas fa-cloud-sun text-[120px] -mr-8 -mb-8"></i>
               </div>
-              <p className="mt-2 text-xs text-gray-600">
-                {t("tools_ai_body")}
-              </p>
+              <div className="relative z-10">
+                <WeatherWidget />
+              </div>
+            </div>
+
+            {/* Translator Widget - Indigo/Purple Gradient */}
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
+              <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
+                <i className="fas fa-language text-[120px] -mr-8 -mb-8"></i>
+              </div>
+              <div className="relative z-10">
+                <TranslatorWidget />
+              </div>
+            </div>
+
+            {/* Lucky Wheel - Pink/Rose Gradient */}
+            <div className="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
+              <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
+                <i className="fas fa-dice text-[120px] -mr-8 -mb-8"></i>
+              </div>
+              <div className="relative z-10">
+                <LuckyWheel />
+              </div>
+            </div>
+
+            {/* Google Maps Widget - Emerald/Teal Gradient */}
+            <div className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
+              <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
+                <i className="fas fa-map-marked-alt text-[120px] -mr-8 -mb-8"></i>
+              </div>
+              <div className="relative z-10">
+                <GoogleMapWidget />
+              </div>
             </div>
           </div>
+        </section>
+
+        {/* AI Smart Explorer */}
+        <section id="explorer" className="space-y-3">
+          <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
+            Khám phá Hàn Quốc
+          </h2>
+          <SmartExplorer />
         </section>
 
         {/* Live Reviews */}

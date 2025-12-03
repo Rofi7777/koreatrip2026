@@ -181,9 +181,9 @@ export function LuckyWheel() {
         />
       )}
 
-      <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
-        <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 mb-4">
-          <i className="fas fa-dice text-[#6D28D9]" />
+      <div className="p-4 md:p-6">
+        <div className="flex items-center gap-2 text-sm font-semibold text-white mb-4">
+          <i className="fas fa-dice text-white" />
           Ai Uống? 🍺
         </div>
 
@@ -191,7 +191,7 @@ export function LuckyWheel() {
           {/* Title for current phase */}
           {gamePhase === "punishment" && (
             <div className="mb-4 text-center animate-fadeIn">
-              <h3 className="text-lg font-bold text-[#6D28D9]">
+              <h3 className="text-lg font-bold text-white">
                 Uống Bao Nhiêu?
               </h3>
             </div>

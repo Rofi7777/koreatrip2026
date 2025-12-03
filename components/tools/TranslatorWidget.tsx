@@ -60,9 +60,9 @@ export function TranslatorWidget() {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
-      <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 mb-3">
-        <i className="fas fa-language text-[#6D28D9]" />
+    <div className="p-4 md:p-6">
+      <div className="flex items-center gap-2 text-sm font-semibold text-white mb-3">
+        <i className="fas fa-language text-white" />
         <span>Phiên dịch viên AI</span>
       </div>
 
@@ -70,7 +70,7 @@ export function TranslatorWidget() {
       <button
         type="button"
         onClick={toggleDirection}
-        className="w-full mb-3 inline-flex items-center justify-center gap-2 rounded-lg bg-purple-50 px-3 py-2 text-xs font-medium text-[#6D28D9] hover:bg-purple-100 transition-colors"
+        className="w-full mb-3 inline-flex items-center justify-center gap-2 rounded-lg bg-white/20 backdrop-blur-md px-3 py-2 text-xs font-medium text-white hover:bg-white/30 transition-colors border border-white/30"
       >
         {direction === "vi2ko" ? (
           <>
@@ -97,7 +97,7 @@ export function TranslatorWidget() {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         placeholder="Nhập nội dung cần dịch..."
-        className="w-full min-h-[80px] px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6D28D9] focus:border-transparent resize-none"
+        className="w-full min-h-[80px] px-3 py-2 text-sm border border-white/30 bg-white/20 backdrop-blur-md rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 resize-none text-white placeholder-white/60"
         disabled={loading}
       />
 
@@ -106,7 +106,7 @@ export function TranslatorWidget() {
         type="button"
         onClick={handleTranslate}
         disabled={loading || !inputText.trim()}
-        className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#6D28D9] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#5B21B6] disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
+        className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-white text-indigo-600 px-4 py-2 text-xs font-semibold shadow-sm hover:bg-white/90 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
       >
         {loading ? (
           <>
@@ -123,23 +123,23 @@ export function TranslatorWidget() {
 
       {/* Error Message */}
       {error && (
-        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-xs text-red-600">{error}</p>
+        <div className="mt-2 p-2 bg-red-500/30 border border-red-300/50 rounded-lg backdrop-blur-md">
+          <p className="text-xs text-white">{error}</p>
         </div>
       )}
 
       {/* Translation Result */}
       {translation && (
-        <div className="mt-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-          <p className="text-xs font-medium text-gray-600 mb-1">Kết quả dịch:</p>
-          <p className="text-sm text-gray-900 whitespace-pre-wrap">{translation}</p>
+        <div className="mt-3 p-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-lg">
+          <p className="text-xs font-medium text-white/90 mb-1">Kết quả dịch:</p>
+          <p className="text-sm text-white whitespace-pre-wrap">{translation}</p>
           <button
             type="button"
             onClick={() => {
               navigator.clipboard.writeText(translation);
               // Optional: show a toast notification
             }}
-            className="mt-2 text-xs text-[#6D28D9] hover:text-[#5B21B6] flex items-center gap-1"
+            className="mt-2 text-xs text-white hover:text-white/80 flex items-center gap-1"
           >
             <i className="fas fa-copy" />
             <span>Sao chép</span>

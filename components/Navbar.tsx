@@ -2,12 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 
-interface NavbarProps {
-  onLogout: () => void;
-  loggingOut: boolean;
-}
-
-export function Navbar({ onLogout, loggingOut }: NavbarProps) {
+export function Navbar() {
   const { t } = useLanguage();
 
   return (
@@ -46,16 +41,6 @@ export function Navbar({ onLogout, loggingOut }: NavbarProps) {
           <a href="#gallery" className="hover:text-[#6D28D9]">
             {t("nav_gallery")}
           </a>
-
-          <button
-            type="button"
-            onClick={onLogout}
-            disabled={loggingOut}
-            className="ml-2 inline-flex items-center rounded-full border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 bg-white hover:bg-gray-50 shadow-sm disabled:opacity-70"
-          >
-            <i className="fas fa-sign-out-alt mr-1" />
-            {loggingOut ? "..." : t("nav_logout")}
-          </button>
         </nav>
       </div>
     </header>

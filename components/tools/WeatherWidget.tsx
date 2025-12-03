@@ -159,16 +159,16 @@ export function WeatherWidget() {
     : null;
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
+    <div className="p-4 md:p-6">
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-          <i className="fas fa-cloud-sun text-[#6D28D9]" />
+        <div className="flex items-center gap-2 text-sm font-semibold text-white">
+          <i className="fas fa-cloud-sun text-white" />
           {t("tools_weather_title") || "Weather"}
         </div>
         <select
           value={selectedCity}
           onChange={(e) => setSelectedCity(e.target.value as keyof typeof LOCATIONS)}
-          className="text-xs px-2 py-1 rounded-lg border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6D28D9] focus:border-transparent"
+          className="text-xs px-2 py-1 rounded-lg border border-white/30 bg-white/20 backdrop-blur-md text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 [&>option]:bg-blue-400 [&>option]:text-gray-900"
         >
           <option value="pyeongchang">
             {language === "vi"
@@ -189,12 +189,12 @@ export function WeatherWidget() {
 
       {loading && (
         <div className="flex items-center justify-center py-4">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#6D28D9]"></div>
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
         </div>
       )}
 
       {error && (
-        <div className="text-xs text-red-500 py-2">{error}</div>
+        <div className="text-xs text-red-100 bg-red-500/30 px-2 py-1 rounded-lg">{error}</div>
       )}
 
       {!loading && !error && weather && weatherInfo && (
@@ -202,15 +202,15 @@ export function WeatherWidget() {
           <div className="flex items-center gap-3">
             <span className="text-3xl">{weatherInfo.icon}</span>
             <div>
-              <div className="text-lg font-bold text-gray-900">
+              <div className="text-lg font-bold text-white">
                 {weather.temperature}°C
               </div>
-              <div className="text-xs text-gray-600">
+              <div className="text-xs text-white/90">
                 {weatherInfo.label}
                 {selectedCity === "pyeongchang" &&
                   weather.weatherCode >= 71 &&
                   weather.weatherCode <= 77 && (
-                    <span className="ml-1 text-[#6D28D9] font-semibold">
+                    <span className="ml-1 text-white font-semibold">
                       ❄️{" "}
                       {language === "vi"
                         ? "Hoàn hảo cho trượt tuyết!"
@@ -222,7 +222,7 @@ export function WeatherWidget() {
               </div>
             </div>
           </div>
-          <div className="text-xs text-gray-500 pt-1 border-t border-gray-100">
+          <div className="text-xs text-white/80 pt-1 border-t border-white/20">
             {cityName}
           </div>
         </div>
