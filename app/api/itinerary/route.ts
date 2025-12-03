@@ -98,14 +98,6 @@ export async function PUT(request: Request) {
       finalUpdates.owner = rest.owner;
     }
 
-    console.log(`[API] Final updates to save:`, Object.keys(finalUpdates));
-    console.log(`[API] Final updates preview:`, {
-      title: finalUpdates.title,
-      title_vi: finalUpdates.title_vi,
-      title_en: finalUpdates.title_en,
-      title_zh: finalUpdates.title_zh,
-    });
-
     const { data, error } = await supabase
       .from("itinerary")
       .update(finalUpdates)
