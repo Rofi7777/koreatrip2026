@@ -61,13 +61,34 @@ body {
 /* Dice Shake Animation */
 @keyframes shake {
   0%, 100% {
-    transform: translateX(0) rotate(0deg);
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateX(0) translateY(0) rotateZ(0deg);
   }
-  10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-5px) rotate(-5deg);
+  10% {
+    transform: perspective(1000px) rotateX(15deg) rotateY(-15deg) translateX(-8px) translateY(-5px) rotateZ(-10deg);
   }
-  20%, 40%, 60%, 80% {
-    transform: translateX(5px) rotate(5deg);
+  20% {
+    transform: perspective(1000px) rotateX(-10deg) rotateY(10deg) translateX(8px) translateY(5px) rotateZ(10deg);
+  }
+  30% {
+    transform: perspective(1000px) rotateX(20deg) rotateY(-20deg) translateX(-6px) translateY(-3px) rotateZ(-15deg);
+  }
+  40% {
+    transform: perspective(1000px) rotateX(-15deg) rotateY(15deg) translateX(6px) translateY(3px) rotateZ(15deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(10deg) rotateY(-10deg) translateX(-4px) translateY(-2px) rotateZ(-8deg);
+  }
+  60% {
+    transform: perspective(1000px) rotateX(-8deg) rotateY(8deg) translateX(4px) translateY(2px) rotateZ(8deg);
+  }
+  70% {
+    transform: perspective(1000px) rotateX(12deg) rotateY(-12deg) translateX(-3px) translateY(-1px) rotateZ(-5deg);
+  }
+  80% {
+    transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) translateX(3px) translateY(1px) rotateZ(5deg);
+  }
+  90% {
+    transform: perspective(1000px) rotateX(8deg) rotateY(-8deg) translateX(-2px) translateY(0) rotateZ(-3deg);
   }
 }
 

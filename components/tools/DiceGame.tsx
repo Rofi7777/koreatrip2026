@@ -56,10 +56,17 @@ export function DiceGame() {
         dots.push(
           <div
             key={`${row}-${col}`}
-            className={`w-2 h-2 rounded-full ${
-              hasDot ? "bg-gray-800" : "bg-transparent"
+            className={`relative ${
+              hasDot ? "w-3 h-3" : "w-2 h-2"
             }`}
-          />
+          >
+            {hasDot && (
+              <div className="absolute inset-0 rounded-full bg-gray-800 shadow-inner">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gray-900 to-gray-700"></div>
+                <div className="absolute top-0.5 left-0.5 w-1 h-1 rounded-full bg-white/30"></div>
+              </div>
+            )}
+          </div>
         );
       }
     }
@@ -106,23 +113,45 @@ export function DiceGame() {
       <div className="flex items-center justify-center gap-4 mb-4">
         {/* Die 1 */}
         <div
-          className={`w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg shadow-lg flex items-center justify-center grid grid-cols-3 gap-1 p-2 ${
+          className={`relative w-20 h-20 sm:w-24 sm:h-24 ${
             isRolling ? "animate-shake" : ""
           }`}
+          style={{
+            transformStyle: "preserve-3d",
+            transform: "perspective(1000px) rotateX(5deg) rotateY(-5deg)",
+          }}
         >
-          {getDiceDots(dice.die1)}
+          {/* 3D Dice Face */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-xl shadow-2xl border-2 border-white/50 grid grid-cols-3 gap-1.5 p-3">
+            {getDiceDots(dice.die1)}
+          </div>
+          {/* Top face shadow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent rounded-xl pointer-events-none"></div>
+          {/* Side shadow effect */}
+          <div className="absolute -inset-1 bg-gradient-to-br from-gray-300/30 to-transparent rounded-xl blur-sm -z-10"></div>
         </div>
 
         {/* Plus Sign */}
-        <span className="text-2xl font-bold text-white">+</span>
+        <span className="text-3xl font-bold text-white drop-shadow-lg">+</span>
 
         {/* Die 2 */}
         <div
-          className={`w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg shadow-lg flex items-center justify-center grid grid-cols-3 gap-1 p-2 ${
+          className={`relative w-20 h-20 sm:w-24 sm:h-24 ${
             isRolling ? "animate-shake" : ""
           }`}
+          style={{
+            transformStyle: "preserve-3d",
+            transform: "perspective(1000px) rotateX(5deg) rotateY(5deg)",
+          }}
         >
-          {getDiceDots(dice.die2)}
+          {/* 3D Dice Face */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-xl shadow-2xl border-2 border-white/50 grid grid-cols-3 gap-1.5 p-3">
+            {getDiceDots(dice.die2)}
+          </div>
+          {/* Top face shadow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent rounded-xl pointer-events-none"></div>
+          {/* Side shadow effect */}
+          <div className="absolute -inset-1 bg-gradient-to-br from-gray-300/30 to-transparent rounded-xl blur-sm -z-10"></div>
         </div>
       </div>
 
