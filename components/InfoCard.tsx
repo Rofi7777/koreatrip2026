@@ -39,7 +39,7 @@ export function InfoCard({ card, onEdit }: InfoCardProps) {
     : "bg-gray-50 text-gray-600";
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 flex gap-3 relative group">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 flex gap-3 relative group">
       <div className="mt-1">
         <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full ${iconColor}`}>
           <i className={`${iconClass} text-xs`} />

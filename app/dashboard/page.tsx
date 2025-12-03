@@ -280,26 +280,26 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="w-full max-w-[95%] mx-auto px-4">
+      <div className="w-full max-w-[95%] mx-auto px-4 sm:px-6 md:px-8">
         <Navbar onLogout={handleLogout} loggingOut={loggingOut} />
 
         <main className="space-y-10 pb-16">
         {/* Hero */}
         <section
           id="hero"
-          className="relative bg-hero-gradient text-white rounded-3xl px-6 py-8 sm:px-10 sm:py-10 shadow-md overflow-hidden"
+          className="relative bg-hero-gradient text-white rounded-3xl px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 shadow-md overflow-hidden"
         >
           {/* Snowfall Effect */}
           <HeroSnowfall />
           
-          {/* Desktop: 3-column grid, Mobile: Stack */}
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          {/* Mobile: Stack vertically, Desktop: Side-by-side */}
+          <div className="relative z-10 flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-6">
             {/* Left: Title & Date */}
-            <div className="md:col-span-1">
+            <div className="text-center md:text-left">
               <p className="text-xs uppercase tracking-[0.2em] text-indigo-200">
                 {t("hero_badge")}
               </p>
-              <h1 className="mt-2 text-2xl sm:text-3xl font-semibold leading-tight">
+              <h1 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight">
                 {t("hero_title")}
               </h1>
               <p className="mt-2 text-sm text-indigo-100">
@@ -308,35 +308,35 @@ export default function DashboardPage() {
             </div>
 
             {/* Center: Weather & Quick Translate */}
-            <div className="md:col-span-1 flex flex-col items-center md:items-center gap-3">
+            <div className="flex flex-col items-center gap-3 w-full md:w-auto">
               <HeroWeather />
               <HeroTranslateBtn />
             </div>
 
             {/* Right: Countdown Timer */}
-            <div className="md:col-span-1 flex flex-col items-start md:items-end gap-2">
+            <div className="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
               <p className="text-xs uppercase tracking-wide text-indigo-100">
                 {t("countdown_title")}
               </p>
-              <div className="flex items-center gap-3 text-center">
-                <div className="px-3 py-2 rounded-xl bg-white/10">
-                  <p className="text-lg font-semibold">
+              <div className="flex items-center gap-2 sm:gap-3 text-center">
+                <div className="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white/10">
+                  <p className="text-base sm:text-lg font-semibold">
                     {countdown.days.toString().padStart(2, "0")}
                   </p>
                   <p className="text-[10px] uppercase tracking-wide text-indigo-200">
                     {t("countdown_days")}
                   </p>
                 </div>
-                <div className="px-3 py-2 rounded-xl bg-white/10">
-                  <p className="text-lg font-semibold">
+                <div className="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white/10">
+                  <p className="text-base sm:text-lg font-semibold">
                     {countdown.hours.toString().padStart(2, "0")}
                   </p>
                   <p className="text-[10px] uppercase tracking-wide text-indigo-200">
                     {t("countdown_hours")}
                   </p>
                 </div>
-                <div className="px-3 py-2 rounded-xl bg-white/10">
-                  <p className="text-lg font-semibold">
+                <div className="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white/10">
+                  <p className="text-base sm:text-lg font-semibold">
                     {countdown.minutes.toString().padStart(2, "0")}
                   </p>
                   <p className="text-[10px] uppercase tracking-wide text-indigo-200">
@@ -344,7 +344,7 @@ export default function DashboardPage() {
                   </p>
                 </div>
               </div>
-              <p className="text-[11px] text-indigo-100">
+              <p className="text-[11px] text-indigo-100 text-center md:text-right">
                 {t("countdown_simulated_date")}
               </p>
             </div>
@@ -408,7 +408,7 @@ export default function DashboardPage() {
             })}
           </div>
 
-          <div className="mt-4 rounded-2xl bg-white/90 backdrop-blur-sm shadow-sm border border-gray-100 px-5 py-5">
+          <div className="mt-4 rounded-2xl bg-white/90 backdrop-blur-sm shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex-1">
                 {loading && (
@@ -438,60 +438,62 @@ export default function DashboardPage() {
             </div>
 
             {!loading && !error && filteredItems.length > 0 && (
-              <div className="mt-1 space-y-5">
+              <div className="mt-1 space-y-4 sm:space-y-5">
                 {filteredItems.map((item) => {
                   const { title, desc } = getLocalizedContent(item);
                   return (
                     <div
                       key={item.id}
-                      className="relative flex gap-6 items-start"
+                      className="relative flex gap-3 sm:gap-4 md:gap-6 items-start"
                     >
                       {/* 1. Time column */}
-                      <div className="w-20 flex-shrink-0 text-right font-semibold text-[#6D28D9] pt-2 text-sm sm:text-base">
+                      <div className="w-16 sm:w-20 flex-shrink-0 text-right font-semibold text-[#6D28D9] pt-2 text-xs sm:text-sm md:text-base">
                         {formatTime(item.start_time)}
                       </div>
 
                       {/* 2. Line + Dot */}
                       <div className="relative flex flex-col items-center pt-2">
-                        <div className="w-4 h-4 rounded-full bg-[#6D28D9] border-2 border-white z-10 shadow" />
-                        <div className="w-0.5 bg-purple-100 absolute top-4 bottom-0" />
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#6D28D9] border-2 border-white z-10 shadow" />
+                        <div className="w-0.5 bg-purple-100 absolute top-3 sm:top-4 bottom-0" />
                       </div>
 
                       {/* 3. Content card */}
-                      <div className="flex-grow pb-8">
-                        <div className="rounded-xl bg-gray-50/90 backdrop-blur-sm border border-gray-100 px-4 py-3">
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2">
-                              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#6D28D9] shadow-sm">
-                                <i className="fas fa-map-marker-alt" />
+                      <div className="flex-grow pb-6 sm:pb-8">
+                        <div className="rounded-xl bg-gray-50/90 backdrop-blur-sm border border-gray-100 p-3 sm:p-4 md:p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-2">
+                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                              <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white text-[#6D28D9] shadow-sm flex-shrink-0">
+                                <i className="fas fa-map-marker-alt text-xs sm:text-sm" />
                               </span>
-                              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+                              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 truncate sm:truncate-none">
                                 {title}
                               </h3>
                             </div>
-                            {item.owner && (
-                              <span className="inline-flex items-center rounded-full bg-[#F3E8FF] px-2 py-0.5 text-[11px] font-medium text-[#6D28D9]">
-                                {item.owner}
-                              </span>
-                            )}
-                            <button
-                              type="button"
-                              onClick={() => handleEditClick(item)}
-                              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[11px]"
-                            >
-                              <i className="fas fa-pen" />
-                            </button>
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                              {item.owner && (
+                                <span className="inline-flex items-center rounded-full bg-[#F3E8FF] px-2 py-0.5 text-[10px] sm:text-[11px] font-medium text-[#6D28D9]">
+                                  {item.owner}
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => handleEditClick(item)}
+                                className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[10px] sm:text-[11px]"
+                              >
+                                <i className="fas fa-pen" />
+                              </button>
+                            </div>
                           </div>
                           {desc && (
-                            <p className="mt-1 text-xs text-gray-600">
+                            <p className="mt-2 text-xs sm:text-sm text-gray-600">
                               {desc}
                             </p>
                           )}
-                          <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+                          <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-[11px]">
                             {item.location && (
                               <span className="inline-flex items-center gap-1 rounded-full bg-white border border-gray-200 px-2 py-0.5 text-gray-600">
                                 <i className="fas fa-location-dot" />
-                                {item.location}
+                                <span className="truncate max-w-[120px] sm:max-w-none">{item.location}</span>
                               </span>
                             )}
                             {item.category && (
@@ -532,13 +534,13 @@ export default function DashboardPage() {
           <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
             {t("tools_title")}
           </h2>
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <WeatherWidget />
             <GoogleMapWidget />
             <TranslatorWidget />
             <LuckyWheel />
             <ForceViButton />
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
               <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                 <i className="fas fa-robot text-[#6D28D9]" />
                 {t("tools_ai_title")}

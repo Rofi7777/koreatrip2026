@@ -36,7 +36,7 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
   const iconClass = getIconClass(task.icon);
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 relative group">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 relative group">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 flex-1">
           <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${

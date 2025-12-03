@@ -120,7 +120,7 @@ export function PlaceReviewCard({
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-gray-900 mb-1">

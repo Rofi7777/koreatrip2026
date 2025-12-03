@@ -60,7 +60,7 @@ export function TranslatorWidget() {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6">
       <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 mb-3">
         <i className="fas fa-language text-[#6D28D9]" />
         <span>Phiên dịch viên AI</span>
