@@ -96,8 +96,8 @@ export function Navbar() {
         </nav>
 
         {/* Mobile Navigation - Horizontal Scroll */}
-        <nav className="sm:hidden flex-1 ml-4 overflow-x-auto scrollbar-hide">
-          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max border border-purple-200/30">
+        <nav className="sm:hidden flex-1 ml-4 overflow-x-auto scrollbar-hide relative">
+          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max border border-purple-200/30 px-2">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -105,7 +105,7 @@ export function Navbar() {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={(e) => handleNavClick(e, item.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap flex-shrink-0 ${
                     isActive
                       ? "bg-white text-purple-700 shadow-md font-bold"
                       : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
@@ -117,8 +117,10 @@ export function Navbar() {
               );
             })}
             {/* Right spacing for mobile scroll */}
-            <div className="w-4"></div>
+            <div className="w-4 flex-shrink-0"></div>
           </div>
+          {/* Gradient fade hint on right edge */}
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-white/80 pointer-events-none"></div>
         </nav>
       </div>
     </header>

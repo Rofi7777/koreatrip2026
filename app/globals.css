@@ -58,6 +58,12 @@ body {
   display: none; /* Chrome, Safari and Opera */
 }
 
+/* Text overflow handling */
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 /* Dice Shake Animation */
 @keyframes shake {
   0%, 100% {

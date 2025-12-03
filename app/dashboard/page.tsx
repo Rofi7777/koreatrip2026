@@ -269,7 +269,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="w-full max-w-[95%] mx-auto px-4 sm:px-6 md:px-8">
+      <div className="w-full max-w-[95%] mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
         <Navbar />
 
         <main className="space-y-10 pb-16">
@@ -440,7 +440,7 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={item.id}
-                      className="relative flex gap-3 sm:gap-4 md:gap-6 items-start"
+                      className="relative flex gap-2 sm:gap-3 md:gap-4 lg:gap-6 items-start w-full overflow-hidden"
                     >
                       {/* 1. Time column */}
                       <div className="w-16 sm:w-20 flex-shrink-0 text-right font-semibold text-[#6D28D9] pt-2 text-xs sm:text-sm md:text-base">
@@ -454,42 +454,42 @@ export default function DashboardPage() {
                       </div>
 
                       {/* 3. Content card */}
-                      <div className="flex-grow pb-6 sm:pb-8">
-                        <div className="rounded-xl bg-gray-50/90 backdrop-blur-sm border border-gray-100 p-3 sm:p-4 md:p-6">
+                      <div className="flex-grow pb-6 sm:pb-8 min-w-0">
+                        <div className="rounded-xl bg-gray-50/90 backdrop-blur-sm border border-gray-100 p-3 sm:p-4 md:p-6 w-full max-w-full">
                           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-2">
                             <div className="flex items-center gap-2 flex-1 min-w-0">
                               <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white text-[#6D28D9] shadow-sm flex-shrink-0">
                                 <i className="fas fa-map-marker-alt text-xs sm:text-sm" />
                               </span>
-                              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 truncate sm:truncate-none">
+                              <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 break-words sm:truncate sm:truncate-none">
                                 {title}
                               </h3>
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
                               {item.owner && (
-                                <span className="inline-flex items-center rounded-full bg-[#F3E8FF] px-2 py-0.5 text-[10px] sm:text-[11px] font-medium text-[#6D28D9]">
+                                <span className="inline-flex items-center rounded-full bg-[#F3E8FF] px-2 py-0.5 text-[10px] sm:text-[11px] font-medium text-[#6D28D9] whitespace-nowrap">
                                   {item.owner}
                                 </span>
                               )}
                               <button
                                 type="button"
                                 onClick={() => handleEditClick(item)}
-                                className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[10px] sm:text-[11px]"
+                                className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[10px] sm:text-[11px] flex-shrink-0"
                               >
                                 <i className="fas fa-pen" />
                               </button>
                             </div>
                           </div>
                           {desc && (
-                            <p className="mt-2 text-xs sm:text-sm text-gray-600">
+                            <p className="mt-2 text-xs sm:text-sm text-gray-600 break-words overflow-wrap-anywhere">
                               {desc}
                             </p>
                           )}
                           <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-[11px]">
                             {item.location && (
-                              <span className="inline-flex items-center gap-1 rounded-full bg-white border border-gray-200 px-2 py-0.5 text-gray-600">
-                                <i className="fas fa-location-dot" />
-                                <span className="truncate max-w-[120px] sm:max-w-none">{item.location}</span>
+                              <span className="inline-flex items-center gap-1 rounded-full bg-white border border-gray-200 px-2 py-0.5 text-gray-600 max-w-full">
+                                <i className="fas fa-location-dot flex-shrink-0" />
+                                <span className="truncate max-w-[120px] sm:max-w-none break-words">{item.location}</span>
                               </span>
                             )}
                             {item.category && (
