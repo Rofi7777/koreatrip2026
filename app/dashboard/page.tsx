@@ -299,10 +299,10 @@ export default function DashboardPage() {
               <p className="text-xs uppercase tracking-[0.2em] text-indigo-200">
                 {t("hero_badge")}
               </p>
-              <h1 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight">
-                {t("hero_title")}
+              <h1 className="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-md leading-tight">
+                🇰🇷 {t("hero_title")}
               </h1>
-              <p className="mt-2 text-sm text-indigo-100">
+              <p className="mt-2 text-lg md:text-xl font-medium text-purple-100">
                 {t("hero_subtitle")}
               </p>
             </div>
