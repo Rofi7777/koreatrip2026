@@ -98,9 +98,6 @@ export async function PUT(request: Request) {
       finalUpdates.owner = rest.owner;
     }
 
-    // Log the prepared updates (using finalUpdates instead of undefined baseUpdates)
-    console.log(`[API] Base updates prepared:`, Object.keys(finalUpdates));
-
     console.log(`[API] Final updates to save:`, Object.keys(finalUpdates));
     console.log(`[API] Final updates preview:`, {
       title: finalUpdates.title,
