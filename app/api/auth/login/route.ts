@@ -3,25 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { password } = body as { password?: string };
-
-    const teamPassword = process.env.TEAM_PASSWORD;
-
-    if (!teamPassword) {
-      return NextResponse.json(
-        { message: "Server configuration error." },
-        { status: 500 }
-      );
-    }
-
-    if (!password || password !== teamPassword) {
-      return NextResponse.json(
-        { message: "Invalid password." },
-        { status: 401 }
-      );
-    }
-
+    // 移除密码验证，直接设置session
     const cookieStore = await cookies();
     cookieStore.set("team_session", "active", {
       path: "/",
