@@ -11,7 +11,7 @@ import { PlaceReviewCard } from "@/components/tools/PlaceReviewCard";
 import { GoogleMapWidget } from "@/components/tools/GoogleMapWidget";
 import { TranslatorWidget } from "@/components/tools/TranslatorWidget";
 import { LuckyWheel } from "@/components/tools/LuckyWheel";
-import { DiceGame } from "@/components/tools/DiceGame";
+import { DiceGame3D } from "@/components/tools/DiceGame3D";
 import { SmartExplorer } from "@/components/tools/SmartExplorer";
 import { TaskList } from "@/components/TaskList";
 import { InfoList } from "@/components/InfoList";
@@ -575,13 +575,13 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Dice Game - Orange/Red Gradient */}
+            {/* Dice Game 3D - Orange/Red Gradient */}
             <div className="bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
               <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
                 <i className="fas fa-dice text-[120px] -mr-8 -mb-8"></i>
               </div>
               <div className="relative z-10">
-                <DiceGame />
+                <DiceGame3D />
               </div>
             </div>
 
