@@ -13,10 +13,13 @@ import { TranslatorWidget } from "@/components/tools/TranslatorWidget";
 import { LuckyWheel } from "@/components/tools/LuckyWheel";
 import { DiceGame3D } from "@/components/tools/DiceGame3D";
 import { SmartExplorer } from "@/components/tools/SmartExplorer";
+import { CustomSearchWidget } from "@/components/tools/CustomSearchWidget";
+import { TaxiCardModal } from "@/components/tools/TaxiCardModal";
 import { TaskList } from "@/components/TaskList";
 import { InfoList } from "@/components/InfoList";
 import { MoodboardGallery } from "@/components/MoodboardGallery";
 import { HeroWeather } from "@/components/HeroWeather";
+import { HeroCurrency } from "@/components/HeroCurrency";
 import { HeroTranslateBtn } from "@/components/HeroTranslateBtn";
 import { HeroSnowfall } from "@/components/HeroSnowfall";
 
@@ -293,9 +296,10 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            {/* Center: Weather & Quick Translate */}
+            {/* Center: Weather, Currency & Quick Translate */}
             <div className="flex flex-col items-center gap-3 w-full md:w-auto">
               <HeroWeather />
+              <HeroCurrency />
               <HeroTranslateBtn />
             </div>
 
@@ -594,6 +598,16 @@ export default function DashboardPage() {
                 <GoogleMapWidget />
               </div>
             </div>
+
+            {/* Taxi Card Modal - Yellow/Orange Gradient */}
+            <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
+              <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
+                <i className="fas fa-taxi text-[120px] -mr-8 -mb-8"></i>
+              </div>
+              <div className="relative z-10">
+                <TaxiCardModal />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -622,6 +636,12 @@ export default function DashboardPage() {
               <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-1"></div>
             </div>
           </div>
+          
+          {/* Custom Search Widget */}
+          <div className="mb-6">
+            <CustomSearchWidget />
+          </div>
+
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
             <PlaceReviewCard
               placeId="ChIJP5lg3YuKYTURjTAS46G5TWc"
