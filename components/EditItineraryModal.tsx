@@ -131,8 +131,9 @@ export function EditItineraryModal({
           table: "itinerary",
           id: (item as ItineraryItem).id,
           sourceData: {
-            title: title || (item as ItineraryItem).title_vi || (item as ItineraryItem).title || "",
-            description: description || (item as ItineraryItem).description_vi || (item as ItineraryItem).description || "",
+            // Use Vietnamese fields as source, fallback to title/description if not available
+            title: (item as ItineraryItem).title_vi || title || (item as ItineraryItem).title || "",
+            description: (item as ItineraryItem).description_vi || description || (item as ItineraryItem).description || "",
           },
         }),
       });

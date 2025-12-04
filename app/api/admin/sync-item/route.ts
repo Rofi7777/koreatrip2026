@@ -42,18 +42,34 @@ export async function POST(request: Request) {
       translationInput.description = sourceData.description;
     }
 
+    console.log("[Sync API] Translation input:", JSON.stringify(translationInput, null, 2));
+
     // Call Gemini to translate
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const prompt = `Translate this JSON from Vietnamese to Traditional Chinese (Taiwan). 
-Input: ${JSON.stringify(translationInput)}
-Return ONLY a valid JSON object with keys: ${table === "info_cards" ? "title_zh, content_zh" : "title_zh, description_zh"}.
-Do not include any markdown, code blocks, or explanations.`;
+    const expectedKeys = table === "info_cards" ? "title_zh, content_zh" : "title_zh, description_zh";
+    
+    const prompt = `You are a professional translator. Translate the following Vietnamese text to Traditional Chinese (Taiwan).
 
+Input JSON: ${JSON.stringify(translationInput, null, 2)}
+
+Rules:
+1. Output MUST be in Traditional Chinese (繁體中文), NOT Vietnamese.
+2. If the input is already Chinese, optimize it to Traditional Chinese.
+3. Return a strictly valid JSON object with keys: "${expectedKeys}".
+4. Do NOT return Vietnamese text. Do NOT return the original text.
+5. Translate ALL text content to Traditional Chinese.
+
+Return ONLY the JSON object, no markdown, no code blocks, no explanations.`;
+
+    console.log("[Sync API] Sending translation request to Gemini...");
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text().trim();
+
+    console.log("[Sync API] Raw AI response:", text);
+    console.log("[Sync API] Response length:", text.length);
 
     // Clean up markdown code blocks if present
     text = text.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/i, "").trim();
@@ -61,9 +77,10 @@ Do not include any markdown, code blocks, or explanations.`;
     let translatedData: Record<string, string>;
     try {
       translatedData = JSON.parse(text);
+      console.log("[Sync API] Parsed translation data:", JSON.stringify(translatedData, null, 2));
     } catch (parseError) {
       console.error("[Sync API] JSON parse error:", parseError);
-      console.error("[Sync API] Raw response:", text);
+      console.error("[Sync API] Raw response after cleanup:", text);
       return NextResponse.json(
         { message: "Failed to parse AI translation response." },
         { status: 500 }
@@ -72,40 +89,66 @@ Do not include any markdown, code blocks, or explanations.`;
 
     // Validate required fields
     if (!translatedData.title_zh) {
+      console.error("[Sync API] Missing title_zh in response. Available keys:", Object.keys(translatedData));
       return NextResponse.json(
         { message: "Translation missing title_zh field." },
         { status: 500 }
       );
     }
 
+    // Verify the translation is actually Chinese, not Vietnamese
+    const titleZh = translatedData.title_zh.trim();
+    const originalTitle = translationInput.title.trim();
+    
+    if (titleZh === originalTitle) {
+      console.warn("[Sync API] WARNING: Translation appears to be identical to source. This might indicate the AI returned Vietnamese instead of Chinese.");
+      // Continue anyway, but log the warning
+    }
+
     // Prepare update object based on table type
     const updateData: Record<string, string> = {
-      title_zh: translatedData.title_zh,
+      title_zh: titleZh,
     };
 
     if (table === "info_cards") {
       if (!translatedData.content_zh) {
+        console.error("[Sync API] Missing content_zh in response. Available keys:", Object.keys(translatedData));
         return NextResponse.json(
           { message: "Translation missing content_zh field." },
           { status: 500 }
         );
       }
-      updateData.content_zh = translatedData.content_zh;
+      updateData.content_zh = translatedData.content_zh.trim();
     } else {
       if (!translatedData.description_zh) {
+        console.error("[Sync API] Missing description_zh in response. Available keys:", Object.keys(translatedData));
         return NextResponse.json(
           { message: "Translation missing description_zh field." },
           { status: 500 }
         );
       }
-      updateData.description_zh = translatedData.description_zh;
+      updateData.description_zh = translatedData.description_zh.trim();
     }
 
+    console.log("[Sync API] Updating database with:", JSON.stringify(updateData, null, 2));
+    console.log("[Sync API] Table:", table, "ID:", id);
+
     // Update the database
-    const { error: updateError } = await supabase
+    const { error: updateError, data: updatedData } = await supabase
       .from(table)
       .update(updateData)
-      .eq("id", id);
+      .eq("id", id)
+      .select();
+
+    if (updateError) {
+      console.error("[Sync API] Database update error:", updateError);
+      return NextResponse.json(
+        { message: `Failed to update database: ${updateError.message}` },
+        { status: 500 }
+      );
+    }
+
+    console.log("[Sync API] Database update successful. Updated row:", updatedData);
 
     if (updateError) {
       console.error("[Sync API] Database update error:", updateError);

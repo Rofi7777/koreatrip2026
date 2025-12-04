@@ -109,8 +109,9 @@ export function EditInfoModal({
           table: "info_cards",
           id: (card as InfoCardType).id,
           sourceData: {
-            title: title || (card as InfoCardType).title_vi || (card as InfoCardType).title || "",
-            content: content || (card as InfoCardType).content_vi || (card as InfoCardType).content || "",
+            // Use Vietnamese fields as source, fallback to title/content if not available
+            title: (card as InfoCardType).title_vi || title || (card as InfoCardType).title || "",
+            content: (card as InfoCardType).content_vi || content || (card as InfoCardType).content || "",
           },
         }),
       });

@@ -113,8 +113,9 @@ export function EditTaskModal({
           table: "tasks",
           id: (task as Task).id,
           sourceData: {
-            title: title || (task as Task).title_vi || (task as Task).title || "",
-            description: description || (task as Task).description_vi || (task as Task).description || "",
+            // Use Vietnamese fields as source, fallback to title/description if not available
+            title: (task as Task).title_vi || title || (task as Task).title || "",
+            description: (task as Task).description_vi || description || (task as Task).description || "",
           },
         }),
       });
