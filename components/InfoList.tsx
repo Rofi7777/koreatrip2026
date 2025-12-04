@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import type { InfoCard as InfoCardType } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 import { InfoCard } from "./InfoCard";
 import { EditInfoModal } from "./EditInfoModal";
 
 export function InfoList() {
+  const { language } = useLanguage();
   const [cards, setCards] = useState<InfoCardType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,8 +20,10 @@ export function InfoList() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-      const res = await fetch("/api/info", {
+      // Add cache-busting query param
+      const res = await fetch(`/api/info?t=${Date.now()}`, {
         signal: controller.signal,
+        cache: "no-store",
       });
       
       clearTimeout(timeoutId);
@@ -51,7 +55,7 @@ export function InfoList() {
 
   useEffect(() => {
     fetchCards();
-  }, []);
+  }, [language]); // Re-fetch when language changes
 
   const handleEditClick = (card: InfoCardType) => {
     setEditingCard(card);

@@ -37,44 +37,42 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
   const { language } = useLanguage();
   const Icon = getCategoryIcon(item.category ?? undefined);
 
+  // Debug: Log item data to check if title_zh is present
+  console.log('Itinerary Item:', item.id, 'Lang:', language, 'TitleZH:', item.title_zh, 'Title:', item.title);
+
   const timeLabel =
     item.start_time && item.end_time
       ? `${item.start_time}–${item.end_time}`
       : item.start_time || "";
 
-  const getLocalizedContent = () => {
-    if (language === "vi") {
-      // Priority: title_vi > title_zh > title
-      return {
-        title: item.title_vi || item.title_zh || item.title || "",
-        desc: item.description_vi || item.description_zh || item.description || "",
-        needsTranslation: false,
-      };
-    }
-    if (language === "zh-TW") {
-      // FORCE display title_zh if available, otherwise show indicator
-      const hasTitleZh = item.title_zh && item.title_zh.trim() !== "";
-      const hasDescZh = item.description_zh && item.description_zh.trim() !== "";
-      
-      return {
-        title: hasTitleZh 
-          ? item.title_zh 
-          : `(待翻譯) ${item.title_vi || item.title || ""}`,
-        desc: hasDescZh 
-          ? item.description_zh 
-          : item.description_vi || item.description || "",
-        needsTranslation: !hasTitleZh,
-      };
-    }
-    // Fallback to Vietnamese
-    return {
-      title: item.title_vi || item.title || "",
-      desc: item.description_vi || item.description || "",
-      needsTranslation: false,
-    };
-  };
+  // Enforce Display Logic (The Fix)
+  const isChinese = language === 'zh-TW';
+  const hasChineseTitle = Boolean(item.title_zh && item.title_zh.trim() !== '');
+  const hasChineseDesc = Boolean(item.description_zh && item.description_zh.trim() !== '');
 
-  const { title, desc, needsTranslation } = getLocalizedContent();
+  let displayTitle = item.title || ''; // Default to Vietnamese
+  if (isChinese && hasChineseTitle) {
+    displayTitle = item.title_zh!;
+  } else if (isChinese && !hasChineseTitle) {
+    // Show indicator if Chinese is selected but translation is missing
+    displayTitle = `(待翻譯) ${item.title_vi || item.title || ''}`;
+  } else if (language === 'vi') {
+    // Vietnamese: prefer title_vi, fallback to title
+    displayTitle = item.title_vi || item.title || '';
+  }
+
+  let displayDesc = item.description || '';
+  if (isChinese && hasChineseDesc) {
+    displayDesc = item.description_zh!;
+  } else if (isChinese && !hasChineseDesc) {
+    // Show Vietnamese description if Chinese is missing
+    displayDesc = item.description_vi || item.description || '';
+  } else if (language === 'vi') {
+    // Vietnamese: prefer description_vi, fallback to description
+    displayDesc = item.description_vi || item.description || '';
+  }
+
+  const needsTranslation = isChinese && !hasChineseTitle;
 
   return (
     <article className="flex gap-4 rounded-2xl bg-white/90 backdrop-blur-sm shadow-md border border-gray-100 px-4 py-3 sm:px-5 sm:py-4">
@@ -98,7 +96,7 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
             <h3 className={`text-base sm:text-lg font-semibold break-words ${
               needsTranslation ? "text-orange-600 italic" : "text-gray-900"
             }`}>
-              {title}
+              {displayTitle}
             </h3>
           </div>
 
@@ -120,9 +118,9 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
           </div>
         </div>
 
-        {desc && (
+        {displayDesc && (
           <p className="text-xs sm:text-sm text-gray-600 break-words whitespace-normal">
-            {desc}
+            {displayDesc}
           </p>
         )}
 

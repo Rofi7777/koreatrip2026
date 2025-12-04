@@ -54,8 +54,10 @@ export default function DashboardPage() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-        const res = await fetch("/api/itinerary", {
+        // Add cache-busting query param
+        const res = await fetch(`/api/itinerary?t=${Date.now()}`, {
           signal: controller.signal,
+          cache: "no-store",
         });
         
         clearTimeout(timeoutId);
@@ -86,7 +88,7 @@ export default function DashboardPage() {
     };
 
     fetchItinerary();
-  }, []);
+  }, [language]); // Re-fetch when language changes
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -13,11 +13,14 @@ export async function GET() {
       console.error("Error fetching itinerary:", error);
       return NextResponse.json(
         { message: `Failed to fetch itinerary: ${error.message || "Database error"}` },
-        { status: 500 }
+        { status: 500, headers: { "Cache-Control": "no-store, max-age=0" } }
       );
     }
 
-    return NextResponse.json({ data: data || [] });
+    return NextResponse.json(
+      { data: data || [] },
+      { headers: { "Cache-Control": "no-store, max-age=0" } }
+    );
   } catch (err) {
     console.error("[API] GET itinerary error:", err);
     const errorMessage = err instanceof Error ? err.message : "Unexpected error";
@@ -25,12 +28,15 @@ export async function GET() {
     // Return empty array instead of error to allow page to load
     if (errorMessage.includes("timeout") || errorMessage.includes("Missing Supabase")) {
       console.warn("[API] Returning empty array due to:", errorMessage);
-      return NextResponse.json({ data: [] });
+      return NextResponse.json(
+        { data: [] },
+        { headers: { "Cache-Control": "no-store, max-age=0" } }
+      );
     }
     
     return NextResponse.json(
       { message: `Unexpected error: ${errorMessage}`, data: [] },
-      { status: 500 }
+      { status: 500, headers: { "Cache-Control": "no-store, max-age=0" } }
     );
   }
 }
