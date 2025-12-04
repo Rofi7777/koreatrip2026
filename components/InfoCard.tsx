@@ -11,38 +11,18 @@ interface InfoCardProps {
 export function InfoCard({ card, onEdit }: InfoCardProps) {
   const { language } = useLanguage();
 
-  const getLocalizedContent = () => {
-    if (language === "vi") {
-      return {
-        title: card.title_vi || card.title || "",
-        content: card.content_vi || card.content || "",
-        needsTranslation: false,
-      };
-    }
-    if (language === "zh-TW") {
-      // FORCE display title_zh if available, otherwise show indicator
-      const hasTitleZh = card.title_zh && card.title_zh.trim() !== "";
-      const hasContentZh = card.content_zh && card.content_zh.trim() !== "";
-      
-      return {
-        title: hasTitleZh 
-          ? card.title_zh 
-          : `(待翻譯) ${card.title_vi || card.title || ""}`,
-        content: hasContentZh 
-          ? card.content_zh 
-          : card.content_vi || card.content || "",
-        needsTranslation: !hasTitleZh,
-      };
-    }
-    // Fallback to Vietnamese
-    return {
-      title: card.title_vi || card.title || "",
-      content: card.content_vi || card.content || "",
-      needsTranslation: false,
-    };
-  };
+  // Prioritize ZH if selected and available
+  const displayTitle =
+    language === "zh-TW" && card.title_zh && card.title_zh.trim() !== ""
+      ? card.title_zh
+      : card.title_vi || card.title || "";
+  
+  const displayContent =
+    language === "zh-TW" && card.content_zh && card.content_zh.trim() !== ""
+      ? card.content_zh
+      : card.content_vi || card.content || "";
 
-  const { title, content, needsTranslation } = getLocalizedContent();
+  const needsTranslation = language === "zh-TW" && (!card.title_zh || card.title_zh.trim() === "");
 
   // Map icon to FontAwesome class
   const getIconClass = (icon?: string | null) => {
@@ -74,11 +54,11 @@ export function InfoCard({ card, onEdit }: InfoCardProps) {
         <h3 className={`text-sm font-semibold ${
           needsTranslation ? "text-orange-600 italic" : "text-gray-900"
         }`}>
-          {title}
+          {needsTranslation ? `(待翻譯) ${displayTitle}` : displayTitle}
         </h3>
-        {content && (
+        {displayContent && (
           <p className="mt-1 text-xs text-gray-600">
-            {content}
+            {displayContent}
           </p>
         )}
       </div>

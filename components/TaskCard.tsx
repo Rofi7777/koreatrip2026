@@ -11,38 +11,18 @@ interface TaskCardProps {
 export function TaskCard({ task, onEdit }: TaskCardProps) {
   const { language } = useLanguage();
 
-  const getLocalizedContent = () => {
-    if (language === "vi") {
-      return {
-        title: task.title_vi || task.title || "",
-        description: task.description_vi || task.description || "",
-        needsTranslation: false,
-      };
-    }
-    if (language === "zh-TW") {
-      // FORCE display title_zh if available, otherwise show indicator
-      const hasTitleZh = task.title_zh && task.title_zh.trim() !== "";
-      const hasDescZh = task.description_zh && task.description_zh.trim() !== "";
-      
-      return {
-        title: hasTitleZh 
-          ? task.title_zh 
-          : `(待翻譯) ${task.title_vi || task.title || ""}`,
-        description: hasDescZh 
-          ? task.description_zh 
-          : task.description_vi || task.description || "",
-        needsTranslation: !hasTitleZh,
-      };
-    }
-    // Fallback to Vietnamese
-    return {
-      title: task.title_vi || task.title || "",
-      description: task.description_vi || task.description || "",
-      needsTranslation: false,
-    };
-  };
+  // Prioritize ZH if selected and available
+  const displayTitle =
+    language === "zh-TW" && task.title_zh && task.title_zh.trim() !== ""
+      ? task.title_zh
+      : task.title_vi || task.title || "";
+  
+  const displayDesc =
+    language === "zh-TW" && task.description_zh && task.description_zh.trim() !== ""
+      ? task.description_zh
+      : task.description_vi || task.description || "";
 
-  const { title, description, needsTranslation } = getLocalizedContent();
+  const needsTranslation = language === "zh-TW" && (!task.title_zh || task.title_zh.trim() === "");
 
   // Map icon to FontAwesome class
   const getIconClass = (icon?: string | null) => {
@@ -80,11 +60,11 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
             <h3 className={`text-sm font-semibold ${
               needsTranslation ? "text-orange-600 italic" : "text-gray-900"
             }`}>
-              {title}
+              {needsTranslation ? `(待翻譯) ${displayTitle}` : displayTitle}
             </h3>
-            {description && (
+            {displayDesc && (
               <p className="mt-2 text-xs text-gray-600">
-                {description}
+                {displayDesc}
               </p>
             )}
           </div>

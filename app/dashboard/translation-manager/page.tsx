@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { ItineraryItem, Task, InfoCard } from "@/types";
 
@@ -202,6 +204,15 @@ export default function TranslationManagerPage() {
 
   return (
     <div className="w-full max-w-[95%] mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-8">
+      {/* Back to Dashboard Button */}
+      <Link
+        href="/dashboard"
+        className="inline-flex items-center gap-2 text-gray-700 bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition mb-6 w-fit shadow-sm"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        <span>⬅️ Quay lại Dashboard</span>
+      </Link>
+
       <div className="mb-6">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
           🌐 Translation Manager
