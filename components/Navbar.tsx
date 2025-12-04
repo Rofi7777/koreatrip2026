@@ -130,6 +130,14 @@ export function Navbar() {
                   );
                 })}
               </div>
+              {/* Translation Manager Link (Desktop Only) */}
+              <a
+                href="/dashboard/translation-manager"
+                className="hidden md:flex items-center gap-1.5 ml-3 px-3 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-purple-700 hover:bg-purple-50/50 transition-all"
+              >
+                <span className="text-base">🌐</span>
+                <span>Translation Manager</span>
+              </a>
             </nav>
           </div>
         </div>
