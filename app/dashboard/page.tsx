@@ -284,14 +284,14 @@ export default function DashboardPage() {
           {/* Mobile: Stack vertically, Desktop: Side-by-side */}
           <div className="relative z-10 flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-6">
             {/* Left: Title & Date */}
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left max-w-full">
               <p className="text-xs uppercase tracking-[0.2em] text-indigo-200">
                 {t("hero_badge")}
               </p>
-              <h1 className="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-md leading-tight">
+              <h1 className="mt-2 text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-md leading-tight break-words max-w-[95%] mx-auto md:mx-0">
                 🇰🇷 {t("hero_title")}
               </h1>
-              <p className="mt-2 text-lg md:text-xl font-medium text-purple-100">
+              <p className="mt-2 text-base sm:text-lg md:text-xl font-medium text-purple-100 break-words max-w-[95%] mx-auto md:mx-0">
                 {t("hero_subtitle")}
               </p>
             </div>
