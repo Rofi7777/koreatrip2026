@@ -24,27 +24,40 @@ const LANGUAGE_STORAGE_KEY = "koreatrip_language";
 const DEFAULT_LANGUAGE: LanguageCode = "vi";
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Lock language to Vietnamese only
-  const [language] = useState<LanguageCode>("vi");
-  
-  // Disabled language switching - always Vietnamese
-  const setLanguage = (_lang: LanguageCode) => {
-    // Do nothing - language is locked to Vietnamese
+  // Load language from localStorage or default to Vietnamese
+  const [language, setLanguageState] = useState<LanguageCode>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY) as LanguageCode | null;
+      if (stored && (stored === "vi" || stored === "zh-TW" || stored === "en")) {
+        return stored;
+      }
+    }
+    return DEFAULT_LANGUAGE;
+  });
+
+  // Save language to localStorage when it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    }
+  }, [language]);
+
+  const setLanguage = (lang: LanguageCode) => {
+    setLanguageState(lang);
   };
 
   const value = useMemo<LanguageContextValue>(() => {
     const t = (key: string): string => {
-      // Always return Vietnamese translations
-      const dict = TRANSLATIONS.vi;
+      const dict = TRANSLATIONS[language];
       return dict[key] ?? key;
     };
 
     return {
-      language: "vi",
+      language,
       setLanguage,
       t,
     };
-  }, []);
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={value}>

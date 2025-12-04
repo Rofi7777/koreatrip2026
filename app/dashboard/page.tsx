@@ -15,6 +15,7 @@ import { DiceGame3D } from "@/components/tools/DiceGame3D";
 import { SmartExplorer } from "@/components/tools/SmartExplorer";
 import { CustomSearchWidget } from "@/components/tools/CustomSearchWidget";
 import { TaxiCardModal } from "@/components/tools/TaxiCardModal";
+import { BatchTranslateButton } from "@/components/tools/BatchTranslateButton";
 import { TaskList } from "@/components/TaskList";
 import { InfoList } from "@/components/InfoList";
 import { MoodboardGallery } from "@/components/MoodboardGallery";
@@ -586,6 +587,16 @@ export default function DashboardPage() {
               </div>
               <div className="relative z-10">
                 <TaxiCardModal />
+              </div>
+            </div>
+
+            {/* Batch Translate Button - Admin Tool */}
+            <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden text-white">
+              <div className="absolute bottom-0 right-0 opacity-20 pointer-events-none">
+                <i className="fas fa-language text-[120px] -mr-8 -mb-8"></i>
+              </div>
+              <div className="relative z-10">
+                <BatchTranslateButton />
               </div>
             </div>
           </div>

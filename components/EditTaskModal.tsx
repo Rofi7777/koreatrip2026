@@ -55,6 +55,7 @@ export function EditTaskModal({
   const [icon, setIcon] = useState(isCreateMode ? "🚐" : (task.icon ?? "🚐"));
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,6 +95,41 @@ export function EditTaskModal({
       console.error("[EditTaskModal] Delete error:", err);
       setError("Failed to delete task. Please try again.");
       setDeleting(false);
+    }
+  };
+
+  const handleSyncToChinese = async () => {
+    if (isCreateMode || !task) return;
+
+    setSyncing(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/admin/sync-item", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          table: "tasks",
+          id: (task as Task).id,
+          sourceData: {
+            title: title || (task as Task).title_vi || (task as Task).title || "",
+            description: description || (task as Task).description_vi || (task as Task).description || "",
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to sync translation");
+      }
+
+      alert("Translation synced to Chinese successfully!");
+      window.location.reload();
+    } catch (err) {
+      console.error("[EditTaskModal] Sync error:", err);
+      setError(err instanceof Error ? err.message : "Failed to sync translation. Please try again.");
+    } finally {
+      setSyncing(false);
     }
   };
 
@@ -215,17 +251,37 @@ export function EditTaskModal({
             )}
             {isCreateMode && <div />}
             <div className="flex gap-2 ml-auto">
+              {!isCreateMode && (
+                <button
+                  type="button"
+                  onClick={handleSyncToChinese}
+                  disabled={saving || deleting || syncing}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-blue-300 px-3 py-1.5 text-xs font-medium text-blue-700 bg-white hover:bg-blue-50 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {syncing ? (
+                    <>
+                      <span className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-700"></span>
+                      Translating...
+                    </>
+                  ) : (
+                    <>
+                      <span>🌏</span>
+                      Sync to Chinese
+                    </>
+                  )}
+                </button>
+              )}
               <button
                 type="button"
                 onClick={onClose}
                 className="inline-flex items-center rounded-full border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
-                disabled={saving || deleting}
+                disabled={saving || deleting || syncing}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                disabled={saving || deleting}
+                disabled={saving || deleting || syncing}
                 className="inline-flex items-center rounded-full bg-[#6D28D9] px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-[#5B21B6] disabled:opacity-70"
               >
                 {saving ? (

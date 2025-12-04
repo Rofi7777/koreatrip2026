@@ -1,6 +1,7 @@
 "use client";
 
 import type { Task } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface TaskCardProps {
   task: Task;
@@ -8,12 +9,31 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ task, onEdit }: TaskCardProps) {
+  const { language } = useLanguage();
 
   const getLocalizedContent = () => {
-    // Simplified: Always use Vietnamese or main fields
+    if (language === "vi") {
+      return {
+        title: task.title_vi || task.title || "",
+        description: task.description_vi || task.description || "",
+      };
+    }
+    if (language === "zh-TW") {
+      // Priority: title_zh > title_vi > title_en > title
+      return {
+        title: task.title_zh || task.title_vi || task.title_en || task.title || "",
+        description: task.description_zh || task.description_vi || task.description_en || task.description || "",
+      };
+    }
+    if (language === "en") {
+      return {
+        title: task.title_en || task.title_vi || task.title_zh || task.title || "",
+        description: task.description_en || task.description_vi || task.description_zh || task.description || "",
+      };
+    }
     return {
-      title: task.title_vi || task.title || "",
-      description: task.description_vi || task.description || "",
+      title: task.title || "",
+      description: task.description || "",
     };
   };
 

@@ -13,7 +13,7 @@ const navItems = [
 ];
 
 export function Navbar() {
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const [activeSection, setActiveSection] = useState<string>("hero");
 
   useEffect(() => {
@@ -80,9 +80,115 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* Right: Desktop Navigation - Floating Pill Style */}
-          <nav className="hidden md:flex items-center md:ml-auto">
-            <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 border border-purple-200/30">
+          {/* Right: Language Toggle + Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-3 md:ml-auto">
+            {/* Language Toggle */}
+            <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-0.5 border border-purple-200/30">
+              <button
+                type="button"
+                onClick={() => setLanguage("vi")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                  language === "vi"
+                    ? "bg-white text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                }`}
+              >
+                🇻🇳 VI
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("zh-TW")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                  language === "zh-TW"
+                    ? "bg-white text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                }`}
+              >
+                🇹🇼 繁中
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("en")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                  language === "en"
+                    ? "bg-white text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                }`}
+              >
+                🇬🇧 EN
+              </button>
+            </div>
+
+            {/* Desktop Navigation - Floating Pill Style */}
+            <nav className="flex items-center">
+              <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 border border-purple-200/30">
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      onClick={(e) => handleNavClick(e, item.id)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                        isActive
+                          ? "bg-white text-purple-700 shadow-sm rounded-full"
+                          : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50 rounded-full"
+                      }`}
+                    >
+                      <span className="text-base">{item.icon}</span>
+                      <span>{t(item.key)}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        {/* Row 2: Language Toggle + Navigation Tabs (Mobile Only) */}
+        <div className="sm:hidden w-full px-2 pb-2 space-y-2">
+          {/* Mobile Language Toggle */}
+          <div className="flex justify-center">
+            <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-0.5 border border-purple-200/30">
+              <button
+                type="button"
+                onClick={() => setLanguage("vi")}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
+                  language === "vi"
+                    ? "bg-white text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                }`}
+              >
+                🇻🇳 VI
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("zh-TW")}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
+                  language === "zh-TW"
+                    ? "bg-white text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                }`}
+              >
+                🇹🇼 繁中
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("en")}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
+                  language === "en"
+                    ? "bg-white text-purple-700 shadow-sm"
+                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                }`}
+              >
+                🇬🇧 EN
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation Tabs */}
+          <nav className="w-full overflow-x-auto scrollbar-hide relative">
+            <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max px-4 border border-purple-200/30">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
@@ -90,48 +196,24 @@ export function Navbar() {
                     key={item.id}
                     href={`#${item.id}`}
                     onClick={(e) => handleNavClick(e, item.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap flex-shrink-0 ${
                       isActive
                         ? "bg-white text-purple-700 shadow-sm rounded-full"
                         : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50 rounded-full"
                     }`}
                   >
-                    <span className="text-base">{item.icon}</span>
+                    <span className="text-sm">{item.icon}</span>
                     <span>{t(item.key)}</span>
                   </a>
                 );
               })}
+              {/* Right spacing for mobile scroll */}
+              <div className="w-4 flex-shrink-0"></div>
             </div>
+            {/* Gradient fade hint on right edge */}
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-white/80 pointer-events-none"></div>
           </nav>
         </div>
-
-        {/* Row 2: Navigation Tabs (Mobile Only) */}
-        <nav className="sm:hidden w-full overflow-x-auto scrollbar-hide px-2 pb-2 mt-0 relative">
-          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max px-4 border border-purple-200/30">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(e) => handleNavClick(e, item.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap flex-shrink-0 ${
-                    isActive
-                      ? "bg-white text-purple-700 shadow-sm rounded-full"
-                      : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50 rounded-full"
-                  }`}
-                >
-                  <span className="text-sm">{item.icon}</span>
-                  <span>{t(item.key)}</span>
-                </a>
-              );
-            })}
-            {/* Right spacing for mobile scroll */}
-            <div className="w-4 flex-shrink-0"></div>
-          </div>
-          {/* Gradient fade hint on right edge */}
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-white/80 pointer-events-none"></div>
-        </nav>
       </div>
     </header>
   );

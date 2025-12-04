@@ -1,6 +1,7 @@
 "use client";
 
 import type { InfoCard as InfoCardType } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface InfoCardProps {
   card: InfoCardType;
@@ -8,12 +9,31 @@ interface InfoCardProps {
 }
 
 export function InfoCard({ card, onEdit }: InfoCardProps) {
+  const { language } = useLanguage();
 
   const getLocalizedContent = () => {
-    // Simplified: Always use Vietnamese or main fields
+    if (language === "vi") {
+      return {
+        title: card.title_vi || card.title || "",
+        content: card.content_vi || card.content || "",
+      };
+    }
+    if (language === "zh-TW") {
+      // Priority: title_zh > title_vi > title_en > title
+      return {
+        title: card.title_zh || card.title_vi || card.title_en || card.title || "",
+        content: card.content_zh || card.content_vi || card.content_en || card.content || "",
+      };
+    }
+    if (language === "en") {
+      return {
+        title: card.title_en || card.title_vi || card.title_zh || card.title || "",
+        content: card.content_en || card.content_vi || card.content_zh || card.content || "",
+      };
+    }
     return {
-      title: card.title_vi || card.title || "",
-      content: card.content_vi || card.content || "",
+      title: card.title || "",
+      content: card.content || "",
     };
   };
 
