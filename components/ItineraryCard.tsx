@@ -80,22 +80,22 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
         </p>
       </div>
 
-      <div className="w-px bg-gray-100" />
+      <div className="w-px bg-gray-100 flex-shrink-0" />
 
-      <div className="flex-1 space-y-1.5">
+      <div className="flex-1 space-y-1.5 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#F3E8FF] text-[#6D28D9]">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#F3E8FF] text-[#6D28D9] flex-shrink-0">
               <Icon className="h-4 w-4" />
             </span>
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 break-words">
               {title}
             </h3>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {item.owner && (
-              <span className="inline-flex items-center rounded-full bg-[#F3E8FF] px-2 py-0.5 text-[11px] font-medium text-[#6D28D9]">
+              <span className="inline-flex items-center rounded-full bg-[#F3E8FF] px-2 py-0.5 text-[11px] font-medium text-[#6D28D9] whitespace-nowrap">
                 {item.owner}
               </span>
             )}
@@ -103,7 +103,7 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
               <button
                 type="button"
                 onClick={() => onEdit(item)}
-                className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[11px]"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[11px] flex-shrink-0"
               >
                 <i className="fas fa-pen" />
               </button>
@@ -112,7 +112,7 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
         </div>
 
         {desc && (
-          <p className="text-xs sm:text-sm text-gray-600">
+          <p className="text-xs sm:text-sm text-gray-600 break-words whitespace-normal">
             {desc}
           </p>
         )}

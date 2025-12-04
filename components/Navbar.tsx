@@ -72,7 +72,7 @@ export function Navbar() {
 
         {/* Desktop Navigation - Floating Pill Style */}
         <nav className="hidden sm:flex items-center">
-          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 border border-purple-200/30">
+          <div className="bg-white/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -82,8 +82,8 @@ export function Navbar() {
                   onClick={(e) => handleNavClick(e, item.id)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
                     isActive
-                      ? "bg-white text-purple-700 shadow-md font-bold"
-                      : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                      ? "bg-white text-purple-700 shadow-sm rounded-full"
+                      : "text-white/80 hover:bg-white/10 rounded-full"
                   }`}
                 >
                   <span className="text-base">{item.icon}</span>
@@ -98,7 +98,7 @@ export function Navbar() {
 
         {/* Mobile Navigation - Full Width, Left Aligned */}
         <nav className="sm:hidden w-full overflow-x-auto scrollbar-hide relative">
-          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max border border-purple-200/30 px-4">
+          <div className="bg-white/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max px-4">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -108,8 +108,8 @@ export function Navbar() {
                   onClick={(e) => handleNavClick(e, item.id)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap flex-shrink-0 ${
                     isActive
-                      ? "bg-white text-purple-700 shadow-md font-bold"
-                      : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                      ? "bg-white text-purple-700 shadow-sm rounded-full"
+                      : "text-white/80 hover:bg-white/10 rounded-full"
                   }`}
                 >
                   <span className="text-sm">{item.icon}</span>
