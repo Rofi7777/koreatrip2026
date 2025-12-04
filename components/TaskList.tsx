@@ -66,7 +66,7 @@ export function TaskList() {
   const handleSave = async (
     updates: {
       id?: Task["id"];
-      language: "vi" | "zh-TW" | "en";
+      language: "vi" | "zh-TW";
       title: string;
       description: string;
       autoTranslate: boolean;

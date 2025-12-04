@@ -16,28 +16,33 @@ export function InfoCard({ card, onEdit }: InfoCardProps) {
       return {
         title: card.title_vi || card.title || "",
         content: card.content_vi || card.content || "",
+        needsTranslation: false,
       };
     }
     if (language === "zh-TW") {
-      // Priority: title_zh > title_vi > title_en > title
+      // FORCE display title_zh if available, otherwise show indicator
+      const hasTitleZh = card.title_zh && card.title_zh.trim() !== "";
+      const hasContentZh = card.content_zh && card.content_zh.trim() !== "";
+      
       return {
-        title: card.title_zh || card.title_vi || card.title_en || card.title || "",
-        content: card.content_zh || card.content_vi || card.content_en || card.content || "",
+        title: hasTitleZh 
+          ? card.title_zh 
+          : `(待翻譯) ${card.title_vi || card.title || ""}`,
+        content: hasContentZh 
+          ? card.content_zh 
+          : card.content_vi || card.content || "",
+        needsTranslation: !hasTitleZh,
       };
     }
-    if (language === "en") {
-      return {
-        title: card.title_en || card.title_vi || card.title_zh || card.title || "",
-        content: card.content_en || card.content_vi || card.content_zh || card.content || "",
-      };
-    }
+    // Fallback to Vietnamese
     return {
-      title: card.title || "",
-      content: card.content || "",
+      title: card.title_vi || card.title || "",
+      content: card.content_vi || card.content || "",
+      needsTranslation: false,
     };
   };
 
-  const { title, content } = getLocalizedContent();
+  const { title, content, needsTranslation } = getLocalizedContent();
 
   // Map icon to FontAwesome class
   const getIconClass = (icon?: string | null) => {
@@ -66,7 +71,9 @@ export function InfoCard({ card, onEdit }: InfoCardProps) {
         </span>
       </div>
       <div className="flex-1">
-        <h3 className="text-sm font-semibold text-gray-900">
+        <h3 className={`text-sm font-semibold ${
+          needsTranslation ? "text-orange-600 italic" : "text-gray-900"
+        }`}>
           {title}
         </h3>
         {content && (

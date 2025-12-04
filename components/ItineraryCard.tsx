@@ -44,30 +44,37 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
 
   const getLocalizedContent = () => {
     if (language === "vi") {
-      // Priority: title_vi > title_en > title_zh > title
+      // Priority: title_vi > title_zh > title
       return {
-        title: item.title_vi || item.title_en || item.title_zh || item.title || "",
-        desc: item.description_vi || item.description_en || item.description_zh || item.description || "",
-      };
-    }
-    if (language === "en") {
-      // Priority: title_en > title_vi > title_zh > title
-      return {
-        title: item.title_en || item.title_vi || item.title_zh || item.title || "",
-        desc: item.description_en || item.description_vi || item.description_zh || item.description || "",
+        title: item.title_vi || item.title_zh || item.title || "",
+        desc: item.description_vi || item.description_zh || item.description || "",
+        needsTranslation: false,
       };
     }
     if (language === "zh-TW") {
-      // Priority: title_zh > title_vi > title_en > title
+      // FORCE display title_zh if available, otherwise show indicator
+      const hasTitleZh = item.title_zh && item.title_zh.trim() !== "";
+      const hasDescZh = item.description_zh && item.description_zh.trim() !== "";
+      
       return {
-        title: item.title_zh || item.title_vi || item.title_en || item.title || "",
-        desc: item.description_zh || item.description_vi || item.description_en || item.description || "",
+        title: hasTitleZh 
+          ? item.title_zh 
+          : `(待翻譯) ${item.title_vi || item.title || ""}`,
+        desc: hasDescZh 
+          ? item.description_zh 
+          : item.description_vi || item.description || "",
+        needsTranslation: !hasTitleZh,
       };
     }
-    return { title: item.title || "", desc: item.description || "" };
+    // Fallback to Vietnamese
+    return {
+      title: item.title_vi || item.title || "",
+      desc: item.description_vi || item.description || "",
+      needsTranslation: false,
+    };
   };
 
-  const { title, desc } = getLocalizedContent();
+  const { title, desc, needsTranslation } = getLocalizedContent();
 
   return (
     <article className="flex gap-4 rounded-2xl bg-white/90 backdrop-blur-sm shadow-md border border-gray-100 px-4 py-3 sm:px-5 sm:py-4">
@@ -88,7 +95,9 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#F3E8FF] text-[#6D28D9] flex-shrink-0">
               <Icon className="h-4 w-4" />
             </span>
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 break-words">
+            <h3 className={`text-base sm:text-lg font-semibold break-words ${
+              needsTranslation ? "text-orange-600 italic" : "text-gray-900"
+            }`}>
               {title}
             </h3>
           </div>

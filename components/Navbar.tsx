@@ -106,17 +106,6 @@ export function Navbar() {
               >
                 🇹🇼 繁中
               </button>
-              <button
-                type="button"
-                onClick={() => setLanguage("en")}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-                  language === "en"
-                    ? "bg-white text-purple-700 shadow-sm"
-                    : "text-white/70 hover:bg-white/10"
-                }`}
-              >
-                🇺🇸 EN
-              </button>
             </div>
 
             {/* Desktop Navigation - Floating Pill Style */}
@@ -171,17 +160,6 @@ export function Navbar() {
                 }`}
               >
                 🇹🇼 繁中
-              </button>
-              <button
-                type="button"
-                onClick={() => setLanguage("en")}
-                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
-                  language === "en"
-                    ? "bg-white text-purple-700 shadow-sm"
-                    : "text-white/70 hover:bg-white/10"
-                }`}
-              >
-                🇺🇸 EN
               </button>
             </div>
           </div>

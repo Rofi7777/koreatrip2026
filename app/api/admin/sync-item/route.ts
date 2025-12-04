@@ -52,16 +52,17 @@ export async function POST(request: Request) {
     
     const prompt = `You are a professional translator. Translate the following Vietnamese text to Traditional Chinese (Taiwan).
 
-Input JSON: ${JSON.stringify(translationInput, null, 2)}
+Input: ${JSON.stringify(translationInput, null, 2)}
 
-Rules:
-1. Output MUST be in Traditional Chinese (繁體中文), NOT Vietnamese.
-2. If the input is already Chinese, optimize it to Traditional Chinese.
-3. Return a strictly valid JSON object with keys: "${expectedKeys}".
-4. Do NOT return Vietnamese text. Do NOT return the original text.
-5. Translate ALL text content to Traditional Chinese.
+Output JSON Keys: ${expectedKeys}
 
-Return ONLY the JSON object, no markdown, no code blocks, no explanations.`;
+Constraint: The output MUST be in Traditional Chinese characters (繁體中文). Do NOT return Vietnamese. Do NOT return the original Vietnamese text.
+
+Example:
+Input: {"title": "Chuyến Du lịch Hàn Quốc", "description": "Seoul và Alpensia"}
+Output: {"title_zh": "韓國之旅", "description_zh": "首爾與阿爾卑西亞"}
+
+Return ONLY a valid JSON object with the keys ${expectedKeys}. No markdown, no code blocks, no explanations.`;
 
     console.log("[Sync API] Sending translation request to Gemini...");
     const result = await model.generateContent(prompt);
@@ -150,18 +151,11 @@ Return ONLY the JSON object, no markdown, no code blocks, no explanations.`;
 
     console.log("[Sync API] Database update successful. Updated row:", updatedData);
 
-    if (updateError) {
-      console.error("[Sync API] Database update error:", updateError);
-      return NextResponse.json(
-        { message: `Failed to update database: ${updateError.message}` },
-        { status: 500 }
-      );
-    }
-
     return NextResponse.json({
       success: true,
       message: "Translation synced successfully",
       data: updateData,
+      updatedRow: updatedData,
     });
   } catch (err) {
     console.error("[Sync API] Error:", err);

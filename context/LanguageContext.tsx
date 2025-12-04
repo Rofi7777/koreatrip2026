@@ -28,7 +28,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<LanguageCode>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY) as LanguageCode | null;
-      if (stored && (stored === "vi" || stored === "zh-TW" || stored === "en")) {
+      if (stored && (stored === "vi" || stored === "zh-TW")) {
         return stored;
       }
     }

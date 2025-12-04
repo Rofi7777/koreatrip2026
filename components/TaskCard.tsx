@@ -16,28 +16,33 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
       return {
         title: task.title_vi || task.title || "",
         description: task.description_vi || task.description || "",
+        needsTranslation: false,
       };
     }
     if (language === "zh-TW") {
-      // Priority: title_zh > title_vi > title_en > title
+      // FORCE display title_zh if available, otherwise show indicator
+      const hasTitleZh = task.title_zh && task.title_zh.trim() !== "";
+      const hasDescZh = task.description_zh && task.description_zh.trim() !== "";
+      
       return {
-        title: task.title_zh || task.title_vi || task.title_en || task.title || "",
-        description: task.description_zh || task.description_vi || task.description_en || task.description || "",
+        title: hasTitleZh 
+          ? task.title_zh 
+          : `(待翻譯) ${task.title_vi || task.title || ""}`,
+        description: hasDescZh 
+          ? task.description_zh 
+          : task.description_vi || task.description || "",
+        needsTranslation: !hasTitleZh,
       };
     }
-    if (language === "en") {
-      return {
-        title: task.title_en || task.title_vi || task.title_zh || task.title || "",
-        description: task.description_en || task.description_vi || task.description_zh || task.description || "",
-      };
-    }
+    // Fallback to Vietnamese
     return {
-      title: task.title || "",
-      description: task.description || "",
+      title: task.title_vi || task.title || "",
+      description: task.description_vi || task.description || "",
+      needsTranslation: false,
     };
   };
 
-  const { title, description } = getLocalizedContent();
+  const { title, description, needsTranslation } = getLocalizedContent();
 
   // Map icon to FontAwesome class
   const getIconClass = (icon?: string | null) => {
@@ -72,7 +77,9 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
             )}
           </span>
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-900">
+            <h3 className={`text-sm font-semibold ${
+              needsTranslation ? "text-orange-600 italic" : "text-gray-900"
+            }`}>
               {title}
             </h3>
             {description && (

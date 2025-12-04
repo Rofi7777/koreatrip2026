@@ -9,7 +9,7 @@ interface EditInfoModalProps {
   onSave: (
     updates: {
       id?: InfoCardType["id"];
-      language: "vi" | "zh-TW" | "en";
+      language: "vi" | "zh-TW";
       title: string;
       content: string;
       autoTranslate: boolean;

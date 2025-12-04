@@ -1,4 +1,4 @@
-export type LanguageCode = "vi" | "zh-TW" | "en";
+export type LanguageCode = "vi" | "zh-TW";
 
 type TranslationMap = Record<string, string>;
 

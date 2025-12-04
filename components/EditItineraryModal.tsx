@@ -9,7 +9,7 @@ interface EditItineraryModalProps {
   onSave: (
     updates: {
       id?: ItineraryItem["id"];
-      language: "vi" | "zh-TW" | "en";
+      language: "vi" | "zh-TW";
       title: string;
       description: string;
       autoTranslate: boolean;
