@@ -11,16 +11,14 @@ interface TaskCardProps {
 export function TaskCard({ task, onEdit }: TaskCardProps) {
   const { language } = useLanguage();
 
-  // Prioritize ZH if selected and available
-  const displayTitle =
-    language === "zh-TW" && task.title_zh && task.title_zh.trim() !== ""
-      ? task.title_zh
-      : task.title_vi || task.title || "";
-  
-  const displayDesc =
-    language === "zh-TW" && task.description_zh && task.description_zh.trim() !== ""
-      ? task.description_zh
-      : task.description_vi || task.description || "";
+  // Debug: Log task data to check if title_zh is present
+  if (process.env.NODE_ENV === "development") {
+    console.log("Task Data:", { id: task.id, title: task.title, title_zh: task.title_zh, language });
+  }
+
+  // Strict fallback: Use simpler logic
+  const title = (language === "zh-TW" && task.title_zh) ? task.title_zh : task.title;
+  const description = (language === "zh-TW" && task.description_zh) ? task.description_zh : task.description;
 
   const needsTranslation = language === "zh-TW" && (!task.title_zh || task.title_zh.trim() === "");
 
@@ -60,11 +58,11 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
             <h3 className={`text-sm font-semibold ${
               needsTranslation ? "text-orange-600 italic" : "text-gray-900"
             }`}>
-              {needsTranslation ? `(待翻譯) ${displayTitle}` : displayTitle}
+              {needsTranslation ? `(待翻譯) ${title}` : title}
             </h3>
-            {displayDesc && (
+            {description && (
               <p className="mt-2 text-xs text-gray-600">
-                {displayDesc}
+                {description}
               </p>
             )}
           </div>

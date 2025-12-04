@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import type { Task } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 import { TaskCard } from "./TaskCard";
 import { EditTaskModal } from "./EditTaskModal";
 
 export function TaskList() {
+  const { language } = useLanguage();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,8 +20,10 @@ export function TaskList() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-      const res = await fetch("/api/tasks", {
+      // Add cache-busting query param
+      const res = await fetch(`/api/tasks?t=${Date.now()}`, {
         signal: controller.signal,
+        cache: "no-store",
       });
       
       clearTimeout(timeoutId);
@@ -51,7 +55,7 @@ export function TaskList() {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [language]); // Re-fetch when language changes
 
   const handleEditClick = (task: Task) => {
     setEditingTask(task);

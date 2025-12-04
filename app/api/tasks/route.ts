@@ -13,21 +13,27 @@ export async function GET() {
       // If table doesn't exist, return empty array instead of error
       if (error.message?.includes("Could not find the table") || error.message?.includes("relation") || error.code === "PGRST116") {
         console.warn("[API] tasks table does not exist, returning empty array");
-        return NextResponse.json({ data: [] });
+        return NextResponse.json(
+          { data: [] },
+          { headers: { "Cache-Control": "no-store, max-age=0" } }
+        );
       }
       return NextResponse.json(
         { message: `Failed to fetch tasks: ${error.message || "Database error"}`, data: [] },
-        { status: 500 }
+        { status: 500, headers: { "Cache-Control": "no-store, max-age=0" } }
       );
     }
 
-    return NextResponse.json({ data: data || [] });
+    return NextResponse.json(
+      { data: data || [] },
+      { headers: { "Cache-Control": "no-store, max-age=0" } }
+    );
   } catch (err) {
     console.error("[API] GET tasks error:", err);
     // Always return empty array on error to allow page to load
     return NextResponse.json(
       { message: `Unexpected error: ${err instanceof Error ? err.message : "Unknown error"}`, data: [] },
-      { status: 200 }
+      { status: 200, headers: { "Cache-Control": "no-store, max-age=0" } }
     );
   }
 }
