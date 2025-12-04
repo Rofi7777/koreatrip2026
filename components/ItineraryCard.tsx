@@ -51,13 +51,14 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
       ? `${formattedStartTime}–${formattedEndTime}`
       : formattedStartTime || "";
 
-  // Display logic: Use Chinese if language is zh-TW and Chinese exists, otherwise use original
-  const displayTitle = (language === 'zh-TW' && item.title_zh) ? item.title_zh : item.title;
-  const displayDesc = (language === 'zh-TW' && item.description_zh) ? item.description_zh : item.description;
+  // Display logic: Use Chinese if language includes 'zh' and Chinese exists, otherwise use original
+  const isChinese = language.includes('zh');
+  const displayTitle = (isChinese && item.title_zh) ? item.title_zh : item.title;
+  const displayDesc = (isChinese && item.description_zh) ? item.description_zh : item.description;
   const displayLocation = item.location || ""; // Location doesn't have translation fields
   const displayCategory = item.category || ""; // Category doesn't have translation fields
 
-  const needsTranslation = language === 'zh-TW' && (!item.title_zh || item.title_zh.trim() === '');
+  const needsTranslation = isChinese && (!item.title_zh || item.title_zh.trim() === '');
 
   return (
     <article className="flex gap-4 rounded-2xl bg-white/90 backdrop-blur-sm shadow-md border border-gray-100 px-4 py-3 sm:px-5 sm:py-4">
@@ -84,6 +85,13 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
               {needsTranslation ? `(待翻譯) ${displayTitle}` : displayTitle}
             </h3>
           </div>
+          
+          {/* Debug line - only visible when language includes 'zh' */}
+          {isChinese && (
+            <div className="text-[10px] text-red-500 bg-yellow-100 p-1 mt-1 border border-red-300 rounded">
+              ⚠️ DEBUG: Lang=[{language}] | HasTitleZH? [{item.title_zh ? 'YES' : 'NO'}] | Content: {item.title_zh?.slice(0, 10)}...
+            </div>
+          )}
 
           <div className="flex items-center gap-2 flex-shrink-0">
             {item.owner && (
