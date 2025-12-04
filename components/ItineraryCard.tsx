@@ -37,42 +37,27 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
   const { language } = useLanguage();
   const Icon = getCategoryIcon(item.category ?? undefined);
 
-  // Debug: Log item data to check if title_zh is present
-  console.log('Itinerary Item:', item.id, 'Lang:', language, 'TitleZH:', item.title_zh, 'Title:', item.title);
+  // Format time to HH:mm (remove seconds if present)
+  const formatTime = (time?: string | null) => {
+    if (!time) return "";
+    return time.slice(0, 5); // Extract HH:mm from HH:mm:ss
+  };
 
+  const formattedStartTime = formatTime(item.start_time);
+  const formattedEndTime = formatTime(item.end_time);
+  
   const timeLabel =
-    item.start_time && item.end_time
-      ? `${item.start_time}–${item.end_time}`
-      : item.start_time || "";
+    formattedStartTime && formattedEndTime
+      ? `${formattedStartTime}–${formattedEndTime}`
+      : formattedStartTime || "";
 
-  // Enforce Display Logic (The Fix)
-  const isChinese = language === 'zh-TW';
-  const hasChineseTitle = Boolean(item.title_zh && item.title_zh.trim() !== '');
-  const hasChineseDesc = Boolean(item.description_zh && item.description_zh.trim() !== '');
+  // Display logic: Use Chinese if language is zh-TW and Chinese exists, otherwise use original
+  const displayTitle = (language === 'zh-TW' && item.title_zh) ? item.title_zh : item.title;
+  const displayDesc = (language === 'zh-TW' && item.description_zh) ? item.description_zh : item.description;
+  const displayLocation = item.location || ""; // Location doesn't have translation fields
+  const displayCategory = item.category || ""; // Category doesn't have translation fields
 
-  let displayTitle = item.title || ''; // Default to Vietnamese
-  if (isChinese && hasChineseTitle) {
-    displayTitle = item.title_zh!;
-  } else if (isChinese && !hasChineseTitle) {
-    // Show indicator if Chinese is selected but translation is missing
-    displayTitle = `(待翻譯) ${item.title_vi || item.title || ''}`;
-  } else if (language === 'vi') {
-    // Vietnamese: prefer title_vi, fallback to title
-    displayTitle = item.title_vi || item.title || '';
-  }
-
-  let displayDesc = item.description || '';
-  if (isChinese && hasChineseDesc) {
-    displayDesc = item.description_zh!;
-  } else if (isChinese && !hasChineseDesc) {
-    // Show Vietnamese description if Chinese is missing
-    displayDesc = item.description_vi || item.description || '';
-  } else if (language === 'vi') {
-    // Vietnamese: prefer description_vi, fallback to description
-    displayDesc = item.description_vi || item.description || '';
-  }
-
-  const needsTranslation = isChinese && !hasChineseTitle;
+  const needsTranslation = language === 'zh-TW' && (!item.title_zh || item.title_zh.trim() === '');
 
   return (
     <article className="flex gap-4 rounded-2xl bg-white/90 backdrop-blur-sm shadow-md border border-gray-100 px-4 py-3 sm:px-5 sm:py-4">
@@ -96,7 +81,7 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
             <h3 className={`text-base sm:text-lg font-semibold break-words ${
               needsTranslation ? "text-orange-600 italic" : "text-gray-900"
             }`}>
-              {displayTitle}
+              {needsTranslation ? `(待翻譯) ${displayTitle}` : displayTitle}
             </h3>
           </div>
 
@@ -125,16 +110,16 @@ export function ItineraryCard({ item, onEdit }: ItineraryCardProps) {
         )}
 
         <div className="flex flex-wrap items-center gap-2 pt-1">
-          {item.location && (
+          {displayLocation && (
             <span className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-0.5 text-[11px] font-medium text-gray-500">
               <MapPin className="h-3 w-3" />
-              {item.location}
+              {displayLocation}
             </span>
           )}
 
-          {item.category && (
+          {displayCategory && (
             <span className="inline-flex items-center rounded-full bg-[#6D28D9]/5 px-2 py-0.5 text-[11px] font-medium text-[#6D28D9]">
-              {String(item.category).toUpperCase()}
+              {String(displayCategory).toUpperCase()}
             </span>
           )}
         </div>

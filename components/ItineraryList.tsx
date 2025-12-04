@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { ItineraryItem } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 import { ItineraryCard } from "./ItineraryCard";
 
 interface ItineraryListProps {
@@ -12,6 +13,9 @@ interface ItineraryListProps {
 const MAX_DAYS = 5;
 
 export function ItineraryList({ items, onEdit }: ItineraryListProps) {
+  // Subscribe to language context to ensure re-render when language changes
+  const { language } = useLanguage();
+  
   const days = useMemo(() => {
     const uniqueDays = Array.from(
       new Set(items.map((i) => i.day_number).filter((d) => typeof d === "number"))
