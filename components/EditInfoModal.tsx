@@ -53,6 +53,7 @@ export function EditInfoModal({
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [syncSuccess, setSyncSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -119,8 +120,11 @@ export function EditInfoModal({
         throw new Error(data.message || "Failed to sync translation");
       }
 
-      alert("Translation synced to Chinese successfully!");
-      window.location.reload();
+      setError(null);
+      setSyncSuccess(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (err) {
       console.error("[EditInfoModal] Sync error:", err);
       setError(err instanceof Error ? err.message : "Failed to sync translation. Please try again.");
@@ -225,10 +229,15 @@ export function EditInfoModal({
                 <button
                   type="button"
                   onClick={handleSyncToChinese}
-                  disabled={saving || deleting || syncing}
+                  disabled={saving || deleting || syncing || syncSuccess}
                   className="inline-flex items-center gap-1.5 rounded-full border border-blue-300 px-3 py-1.5 text-xs font-medium text-blue-700 bg-white hover:bg-blue-50 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {syncing ? (
+                  {syncSuccess ? (
+                    <>
+                      <span>✓</span>
+                      Done!
+                    </>
+                  ) : syncing ? (
                     <>
                       <span className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-700"></span>
                       Translating...
