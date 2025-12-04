@@ -55,7 +55,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur bg-white/80 border-b border-gray-100">
       <div className="flex items-center justify-between py-3 px-4 sm:px-6">
-        <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Logo & Title - Hidden on Mobile, Visible on Desktop */}
+        <div className="hidden md:flex items-center gap-2 flex-shrink-0">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#6D28D9] text-white">
             <i className="fas fa-mountain" />
           </span>
@@ -95,9 +96,9 @@ export function Navbar() {
           <div className="w-6"></div>
         </nav>
 
-        {/* Mobile Navigation - Horizontal Scroll */}
-        <nav className="sm:hidden flex-1 ml-4 overflow-x-auto scrollbar-hide relative">
-          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max border border-purple-200/30 px-2">
+        {/* Mobile Navigation - Full Width, Left Aligned */}
+        <nav className="sm:hidden w-full overflow-x-auto scrollbar-hide relative">
+          <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-1 min-w-max border border-purple-200/30 px-4">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
