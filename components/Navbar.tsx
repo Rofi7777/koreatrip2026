@@ -83,14 +83,14 @@ export function Navbar() {
           {/* Right: Language Toggle + Desktop Navigation */}
           <div className="hidden md:flex items-center gap-3 md:ml-auto">
             {/* Language Toggle */}
-            <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-0.5 border border-purple-200/30">
+            <div className="bg-purple-600/20 backdrop-blur-md rounded-full p-1 flex items-center gap-0.5 border border-purple-300/30">
               <button
                 type="button"
                 onClick={() => setLanguage("vi")}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
                   language === "vi"
                     ? "bg-white text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                    : "text-white/70 hover:bg-white/10"
                 }`}
               >
                 🇻🇳 VI
@@ -101,7 +101,7 @@ export function Navbar() {
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
                   language === "zh-TW"
                     ? "bg-white text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                    : "text-white/70 hover:bg-white/10"
                 }`}
               >
                 🇹🇼 繁中
@@ -112,10 +112,10 @@ export function Navbar() {
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
                   language === "en"
                     ? "bg-white text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                    : "text-white/70 hover:bg-white/10"
                 }`}
               >
-                🇬🇧 EN
+                🇺🇸 EN
               </button>
             </div>
 
@@ -149,14 +149,14 @@ export function Navbar() {
         <div className="sm:hidden w-full px-2 pb-2 space-y-2">
           {/* Mobile Language Toggle */}
           <div className="flex justify-center">
-            <div className="bg-purple-500/10 backdrop-blur-md rounded-full p-1 flex items-center gap-0.5 border border-purple-200/30">
+            <div className="bg-purple-600/20 backdrop-blur-md rounded-full p-1 flex items-center gap-0.5 border border-purple-300/30">
               <button
                 type="button"
                 onClick={() => setLanguage("vi")}
                 className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
                   language === "vi"
                     ? "bg-white text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                    : "text-white/70 hover:bg-white/10"
                 }`}
               >
                 🇻🇳 VI
@@ -167,7 +167,7 @@ export function Navbar() {
                 className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
                   language === "zh-TW"
                     ? "bg-white text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                    : "text-white/70 hover:bg-white/10"
                 }`}
               >
                 🇹🇼 繁中
@@ -178,10 +178,10 @@ export function Navbar() {
                 className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 ${
                   language === "en"
                     ? "bg-white text-purple-700 shadow-sm"
-                    : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"
+                    : "text-white/70 hover:bg-white/10"
                 }`}
               >
-                🇬🇧 EN
+                🇺🇸 EN
               </button>
             </div>
           </div>
